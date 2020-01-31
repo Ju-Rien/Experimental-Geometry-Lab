@@ -2,6 +2,7 @@
 
 import numpy as np
 import sys
+import os
 
 class MoebTr:
 
@@ -70,8 +71,14 @@ class MoebTr:
             The Moebius Transformation to map points (α, β, γ) to (x, y, z).
         """
 
-        # if isinstance(pt, HComplex):
-        # VÉRIFIER si les points sont complexes ou HComplexes
+        if (isinstance(α, HComplex) or
+            isinstance(β, HComplex) or
+            isinstance(γ, HComplex) or
+            isinstance(x, HComplex) or
+            isinstance(y, HComplex) or
+            isinstance(z, HComplex)):
+            α, β, γ = α.toComplex(), β.toComplex(), γ.toComplex()
+            x, y, z = x.toComplex(), y.toComplex(), z.toComplex()
 
         Mabc = MoebTr._toRef(α, β, γ)._mat
         Mxyz = MoebTr._toRef(x, y, z)._mat
@@ -133,14 +140,14 @@ in end set: ({}, {}, {})".format(α, β, γ, x, y, z)) from None
         """Returns the inverse MoebTr."""
         inv = np.linalg.inv(self._mat)
         return MoebTr(inv[0][0], inv[0][1], inv[1][0], inv[1][1])
-    
+
     def normalize(self):
         """Normalizes matrix by square root of determinant"""
         det = self._mat[0][0]*self._mat[1][1] - self._mat[0][1]*self._mat[1][0]
         for i in range(2):
             for j in range(2):
                 self._mat[i][j] = (self._mat[i][j])/(np.sqrt(det))
-    
+
     def trace(self):
         """Returns the trace (as complex number)"""
         self.normalize()
@@ -151,12 +158,13 @@ class HComplex:
 
     def __init__(self, z, w=1):
         self._vector = np.array([complex(0), complex(1)])
-        self._vector[1] = complex(w)
 
-        if w == 0:
+        if w == 0 or abs(z) == float("inf"):
             self._vector[0] = complex(1)
+            self._vector[1] = complex(0)
         else:
             self._vector[0] = complex(z)
+            self._vector[1] = complex(w)
 
     # On ne considère pas d'autres opérations sur les points que la transformation de Moebius et le birapport
     #def __add__(self, otherhc):
@@ -204,7 +212,7 @@ class HComplex:
 
     def homogenize(self):
         """Homogenizes the HComplex number to its canonic form ()."""
-        if self._vector[1] == 0:
+        if abs(self._vector[1]) < np.finfo(float).eps:
             self._vector[0] = 1
         else:
             self._vector[0] = self._vector[0] / self._vector[1]
@@ -286,17 +294,22 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         f = abs(β) ** 2 - abs(α) ** 2
         g = abs(γ) ** 2 - abs(α) ** 2
 
-        try:
-            res = HComplex((b * g - a * f)/(b*c - a*d), (f*c - g*a)/(d*a - b*c))
-        except ZeroDivisionError:
-            return HComplex(1,0)
+        tmp = b*c - a*d
 
-        return res
+        if abs(tmp) > np.finfo(float).eps:
+            R = (b * g - a * f)/tmp
+            I = (g*a - f*c)/tmp
+            res = HComplex(R, I)
+
+        else:
+            res = HComplex(1, 0)
+
+        return res.toComplex()
 
 
     def radius(self):
         # Ne fonctionnera pas, car j'ai retirer la soustraction de HComplex
-        return abs((self._points[0].value() - self.center().value()))
+        return abs((self._points[0].value() - self.center()))
 
 
 if __name__ == "__main__":
