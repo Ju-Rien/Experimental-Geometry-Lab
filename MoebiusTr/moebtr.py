@@ -133,6 +133,18 @@ in end set: ({}, {}, {})".format(α, β, γ, x, y, z)) from None
         """Returns the inverse MoebTr."""
         inv = np.linalg.inv(self._mat)
         return MoebTr(inv[0][0], inv[0][1], inv[1][0], inv[1][1])
+    
+    def normalize(self):
+        """Normalizes matrix by square root of determinant"""
+        det = self._mat[0][0]*self._mat[1][1] - self._mat[0][1]*self._mat[1][0]
+        for i in range(2):
+            for j in range(2):
+                self._mat[i][j] = (self._mat[i][j])/(np.sqrt(det))
+    
+    def trace(self):
+        """Returns the trace (as complex number)"""
+        self.normalize()
+        return (self._mat[0][0] + self._mat[1][1])**2
 
 
 class HComplex:
