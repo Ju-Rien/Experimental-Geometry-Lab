@@ -124,6 +124,11 @@ in end set: ({}, {}, {})".format(α, β, γ, x, y, z)) from None
 
         return res
 
+    #def t(self):
+    #    """Returns the transpose of the MoebTr."""
+    #    tr = self._mat.transpose()
+    #    return MoebTr(tr[0][0], tr[0][1], tr[1][0], tr[1][1])
+
     def inv(self):
         """Returns the inverse MoebTr."""
         inv = np.linalg.inv(self._mat)
@@ -141,20 +146,16 @@ class HComplex:
         else:
             self._vector[0] = complex(z)
 
-
-    def __add__(self, otherhc):
-        res = self._vector[0] + self._vector[1] * otherhc._vector[0] / otherhc._vector[1]
-        return HComplex(res, self._vector[1])
-
-
-    def __sub__(self, otherhc):
-        res = self._vector[0] - self._vector[1] * otherhc._vector[0] / otherhc._vector[1]
-        return HComplex(res, self._vector[1])
-
-
-    def __mul__(self, otherhc):
-        res = self._vector * otherhc._vector
-        return HComplex(res[0], res[1])
+    # On ne considère pas d'autres opérations sur les points que la transformation de Moebius et le birapport
+    #def __add__(self, otherhc):
+    #    res = self._vector[0] + self._vector[1] * otherhc._vector[0] / otherhc._vector[1]
+    #    return HComplex(res, self._vector[1])
+    #def __sub__(self, otherhc):
+    #    res = self._vector[0] - self._vector[1] * otherhc._vector[0] / otherhc._vector[1]
+    #    return HComplex(res, self._vector[1])
+    #def __mul__(self, otherhc):
+    #    res = self._vector * otherhc._vector
+    #    return HComplex(res[0], res[1])
 
 
     def __eq__(self, ohc):
@@ -273,15 +274,17 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         f = abs(β) ** 2 - abs(α) ** 2
         g = abs(γ) ** 2 - abs(α) ** 2
 
-
-
-        res = HComplex((b * g - a * f)/(b*c - a*d), (f*c - g*a)/(d*a - b*c))
+        try:
+            res = HComplex((b * g - a * f)/(b*c - a*d), (f*c - g*a)/(d*a - b*c))
+        except ZeroDivisionError:
+            return HComplex(1,0)
 
         return res
 
 
     def radius(self):
-        return abs((self._points[0] - self.center()).value())
+        # Ne fonctionnera pas, car j'ai retirer la soustraction de HComplex
+        return abs((self._points[0].value() - self.center().value()))
 
 
 if __name__ == "__main__":
