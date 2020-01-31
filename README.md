@@ -17,7 +17,19 @@
 
 ## Pour utiliser le git:
 
+Pour toutes les informations de base sur git: https://git-scm.com/book/en/v2
+
+Github sert de serveur pour conserver ton répertoire git et le télécharger de n'importe où. Il faut comprendre que l'outil qu'on utilise vraiment est Git: Un gestionnaire de version (https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F).
+
 ### Sous Linux:
-Dans ton 
+Dans un terminal (Ctrl+Shift+T), rend toi dans le dossier dans lequel tu veux travailler:
+```cd Ton/Chemin/vers/le/Workspace```
+
+Puis, il faut cloner le répertoire du projet à l'endroit que tu es:
+```git clone https://github.com/Ju-Rien/Experimental-Geometry-Lab```
+
+À partir de maintenant, ton workflow est assez simple. À tout moment, tu peux utiliser `git status` pour connaître l'état des modifications du code, **localement** (c'est-à-dire que ça donne des informations sur les modifications que tu as fait sur ton ordi.)
+
+(TODO: Suite de mini tuto git)
 
 
