@@ -2,7 +2,6 @@
 
 import numpy as np
 import sys
-import os
 
 class MoebTr:
 
@@ -157,14 +156,16 @@ in end set: ({}, {}, {})".format(α, β, γ, x, y, z)) from None
 class HComplex:
 
     def __init__(self, z, w=1):
-        self._vector = np.array([complex(0), complex(1)])
+        self._vector = np.array([complex(z), complex(w)])
 
-        if w == 0 or abs(z) == float("inf"):
+        if abs(w) == float("inf") and abs(z) == float("inf"):
+            raise ValueError("Both arguments can't be infinity.")
+        elif abs(z) == float("inf") or w == 0:
             self._vector[0] = complex(1)
             self._vector[1] = complex(0)
-        else:
-            self._vector[0] = complex(z)
-            self._vector[1] = complex(w)
+        elif abs(w) == float("inf"):
+            self._vector[0] = complex(0)
+            self._vector[1] = complex(1)
 
     # On ne considère pas d'autres opérations sur les points que la transformation de Moebius et le birapport
     #def __add__(self, otherhc):
@@ -179,12 +180,15 @@ class HComplex:
 
 
     def __eq__(self, ohc):
+
+        #if
+
         if self._vector[1] == 0:
             return ohc._vector[1] == 0
         elif ohc._vector[1] == 0:
             return False
         else:
-            return self._vector[0]/self._vector[1] == ohc._vector[0]/ohc._vector[1]
+            return self.homogenize()._vector[0] == ohc.homogenize()._vector[0]
 
     def __ne__(self, ohc):
         if self._vector[1] == 0:
@@ -299,8 +303,7 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         if abs(tmp) > np.finfo(float).eps:
             R = (b * g - a * f)/tmp
             I = (g*a - f*c)/tmp
-            res = HComplex(R, I)
-
+            res = HComplex(complex(R, I))
         else:
             res = HComplex(1, 0)
 
