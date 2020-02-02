@@ -11,10 +11,6 @@
 
 * Fonction d'intialisation des 4 cercles en chaîne de tangeance. (Initialiser 3 points, faire le cercle, prendre un 4e point sur le cercle, puis .)
 
-### MoebTr
-* Normaliser la transformation de Moebius par la racine du déterminant.
-* Méthode pour calculer la trace (sur la transfo normalisée).
-
 ### HComplex
 * Bi-rapport(Cross-Ratio): 4 HComplex -> 1 HComplex. (Par le determinant des matrices [[z1, z2],[w1, w2]]).
 
