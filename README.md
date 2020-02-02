@@ -17,9 +17,6 @@
 ### HComplex
 * Bi-rapport(Cross-Ratio): 4 HComplex -> 1 HComplex. (Par le determinant des matrices [[z1, z2],[w1, w2]]).
 
-### Circle
-* Vérifier à la création d'un cercle que les points ne sont pas colinéaire, ou à ce moment, créer un cercle ayant un point à l'infini.
-
 ## Pour utiliser le git:
 
 Pour toutes les informations de base sur git: https://git-scm.com/book/en/v2
