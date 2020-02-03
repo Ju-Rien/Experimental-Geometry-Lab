@@ -280,7 +280,6 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
 
 
     def center(self):
-        # PROBLEM HERE: ça ne renvoit pas les bons centres no
         α, β, γ = self.toComplex()
 
         if abs(α) == float("inf") or abs(β) == float("inf") or abs(γ) == float("inf"):
