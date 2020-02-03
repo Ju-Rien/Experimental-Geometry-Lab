@@ -1,7 +1,7 @@
 """Required data structures for Moebius transformation, homogeneous complex 2D coordinates and more."""
 
 import numpy as np
-import sys
+#import sys
 
 class MoebTr:
 
@@ -17,18 +17,11 @@ class MoebTr:
 
         self._mat = np.array([[complex(a), complex(b)],
                               [complex(c), complex(d)]])
-
-
-# Je ne pense pas que ça aie du sens de définir l'addition d'une transformation de Moebius
-#    def __add__(self, othertr):
-#        res = self._mat + othertr._mat
-#        return MoebTr(res[0][0], res[0][1], res[1][0], res[1][1])
-#    def __sub__(self, othertr):
-#        res = self._mat + othertr._mat
-#        return MoebTr(res[0][0], res[0][1], res[1][0], res[1][1])
+        self.normalize()
 
 
     def __mul__(self, othertr):
+        """The same as .dot()."""
         res = self.dot(othertr)
         return res
 
@@ -87,7 +80,7 @@ class MoebTr:
             tr._mat = np.linalg.inv(Mxyz).dot(Mabc)
             np.linalg.inv(Mabc)
         except np.linalg.LinAlgError as e:
-            #print(str(e), file=sys.stderr)
+            # print(str(e), file=sys.stderr)
             raise ValueError("A point is duplicated in starting set:({},{},{}) or \
 in end set: ({}, {}, {})".format(α, β, γ, x, y, z)) from None
 
@@ -115,8 +108,9 @@ in end set: ({}, {}, {})".format(α, β, γ, x, y, z)) from None
         """
         if isinstance(z, complex) or isinstance(z, float) or isinstance(z, int):
             z = HComplex(z)
-        elif isinstance(z, Circle):
-            pass
+
+        if isinstance(z, Circle):
+            res = z.tr(self)
         elif isinstance(z, MoebTr):
             mult = self._mat.dot(z[:])
             res = MoebTr(mult[0][0], mult[0][1], mult[1][0], mult[1][1])
@@ -167,22 +161,8 @@ class HComplex:
             self._vector[0] = complex(0)
             self._vector[1] = complex(1)
 
-    # On ne considère pas d'autres opérations sur les points que la transformation de Moebius et le birapport
-    #def __add__(self, otherhc):
-    #    res = self._vector[0] + self._vector[1] * otherhc._vector[0] / otherhc._vector[1]
-    #    return HComplex(res, self._vector[1])
-    #def __sub__(self, otherhc):
-    #    res = self._vector[0] - self._vector[1] * otherhc._vector[0] / otherhc._vector[1]
-    #    return HComplex(res, self._vector[1])
-    #def __mul__(self, otherhc):
-    #    res = self._vector * otherhc._vector
-    #    return HComplex(res[0], res[1])
-
 
     def __eq__(self, ohc):
-
-        #if
-
         if self._vector[1] == 0:
             return ohc._vector[1] == 0
         elif ohc._vector[1] == 0:
@@ -274,6 +254,24 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
             raise ValueError("Circle requires distinct points. Given: {},{} and {}".format(p1, p2, p3))
 
 
+    def __str__(self):
+        st = "Circle("
+        for i in range(3):
+            st += str(self._points[i])
+            if i != 2:
+                st += ", "
+        st += ")"
+        return st
+
+
+    def __getitem__(self, key):
+        return self._points[key]
+
+
+    def __repr__(self):
+        return f'Circle({self._points[0]}, {self._points[1]}, {self._points[2]})'
+
+
     def toComplex(self):
         """Returns the three complex points parametrizing the circle."""
         return (self._points[0].value(),
@@ -314,6 +312,11 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         # Ne fonctionnera pas, car j'ai retirer la soustraction de HComplex
         return abs((self._points[0].value() - self.center()))
 
+
+    def tr(self, tr):
+        return Circle(tr.dot(self._points[0]),
+                      tr.dot(self._points[1]),
+                      tr.dot(self._points[2]))
 
 if __name__ == "__main__":
     print("Coming soon.")
