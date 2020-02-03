@@ -9,7 +9,8 @@
 * Fonctions d'affichage récursive
   * **Note**: On peut itérer sur TreeNode avec un boucle `for` standard
 
-* Fonction d'intialisation des 4 cercles en chaîne de tangeance. (Initialiser 3 points, faire le cercle, prendre un 4e point sur le cercle, puis...)
+* Fonction d'intialisation des 4 cercles en chaîne de tangeance 
+  * "Sliders" pour les points arbitraires sur les cercles (seulement sur 2 des 4 cercles). Slider du style (0,1)?
 
 ### HComplex
 * Bi-rapport(Cross-Ratio): 4 HComplex -> 1 HComplex. (Par le determinant des matrices [[z1, z2],[w1, w2]]).
