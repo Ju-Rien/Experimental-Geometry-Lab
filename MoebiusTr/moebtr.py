@@ -322,11 +322,11 @@ def initialise(p1, p2, p3, p4):
     return
 
 def cross_ratio(z1, z2, z3, z4):
-    """Returns the cross ration of 4 complex numbers"""
+    """Returns the cross ratio of 4 complex numbers"""
     return ((z1-z4)*(z3-z2))/((z1-z2)*(z3-z4))
 
 def inv_cross_ration(z1, z2, z3, a):
-    """Returns the 4th complex number given 3 complex numbers and a cross-ratio"""
+    """Returns the 4th complex number given 3 complex numbers and a cross ratio"""
     return ((1-a)*z1*z3 + a*z2*z3 - z1*z2)/((a-1)*z2 - a*z1 + z3)
 
 if __name__ == "__main__":
