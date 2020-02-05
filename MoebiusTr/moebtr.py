@@ -317,6 +317,9 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         return Circle(tr.dot(self._points[0]),
                       tr.dot(self._points[1]),
                       tr.dot(self._points[2]))
+#initialize the 4 circles
+def initialise(p1, p2, p3, p4):
+    return
 
 if __name__ == "__main__":
     print("Coming soon.")
