@@ -3,6 +3,8 @@
 import numpy as np
 #import sys
 
+import sympy
+
 class MoebTr:
 
     def __init__(self, a, b, c, d):
@@ -317,21 +319,40 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         return Circle(tr.dot(self._points[0]),
                       tr.dot(self._points[1]),
                       tr.dot(self._points[2]))
-    
+
+
+   
 class Line:
+    
     """Defines a line in the complex plane"""
     
-    def __init__(self, c=1+0j):
-        try:
-            self.slope = np.real(c)
-            self.intercept = np.imag(c)
-        except TypeError:
-            try:
-                c = c.toComplex()
-                self.slope = np.real(c)
-                self.intercept = np.imag(c)
-            except: raise TypeError("Must be given complex argument")
+    def __init__(self, m=1, b=0, p1=None, p2=None):
         
+        """Parameters
+        ----------
+        m : float, optional
+            Slope. The default is 1.
+        b : float, optional
+            Intercept point. The default is 0.
+        p1 : complex, optional
+            First complex point. The default is None.
+        p2 : complex, optional
+            Second complex point. The default is None.
+        """
+        
+        if p1 is None and p2 is None:
+            self.slope = m
+            self.intercept = b
+        elif p2 is None:
+            self.slope = m
+            self.intercept = np.imag(p1) - m*np.real(p1)
+        else:
+            self.slope = (np.real(p1) - np.real(p2))/(np.imag(p1) - np.imag(p2))
+            self.intercept = np.imag(p1) - self.slope*np.real(p1)        
+          
+    
+    def __str__(self):
+        return "I = {}R + {}j".format(self.slope, self.intercept)   
     
     def intercept_point(self, T):
         if isinstance(T, Line):
@@ -340,22 +361,22 @@ class Line:
             else:
                 r = (self.intercept - T.intercept)/(T.slope - self.slope)
                 i = self.get_im(r)
-                return complex(r, np.imag(i))
-            
-        # elif isinstance(T, Circle):
-        #     raise TypeError("Interception avec cercles pas encore codee !!!")
-            
+                return complex(r, np.imag(i))            
         else: raise TypeError("Argument must be Line")
-    
-    def __str__(self):
-        return "I = {}R + {}j".format(self.slope, self.intercept)
-    
+        
     def get_im(self, r):
         return complex(0, self.slope*r + self.intercept)
     
     def get_re(self, i):
-        return (i - self.intercept)/self.slope
+        return (np.imag(i) - self.intercept)/self.slope
     
+    def toEq(self):
+        pt = sympy.Point2D(0, self.intercept)
+        l = sympy.Line2D(pt, slope=self.slope)
+        return l.equation()
+
+
+
 #initialize the 4 circles
 def initialise(p1, p2, p3, p4):
     return
