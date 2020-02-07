@@ -317,6 +317,45 @@ Received: {},{} and {}".format(type(p1), type(p2), type(p3))) from None
         return Circle(tr.dot(self._points[0]),
                       tr.dot(self._points[1]),
                       tr.dot(self._points[2]))
+    
+class Line:
+    """Defines a line in the complex plane"""
+    
+    def __init__(self, c=1+0j):
+        try:
+            self.slope = np.real(c)
+            self.intercept = np.imag(c)
+        except TypeError:
+            try:
+                c = c.toComplex()
+                self.slope = np.real(c)
+                self.intercept = np.imag(c)
+            except: raise TypeError("Must be given complex argument")
+        
+    
+    def intercept_point(self, T):
+        if isinstance(T, Line):
+            if self.slope == T.slope:
+                return float("inf")
+            else:
+                r = (self.intercept - T.intercept)/(T.slope - self.slope)
+                i = self.get_im(r)
+                return complex(r, np.imag(i))
+            
+        # elif isinstance(T, Circle):
+        #     raise TypeError("Interception avec cercles pas encore codee !!!")
+            
+        else: raise TypeError("Argument must be Line")
+    
+    def __str__(self):
+        return "I = {}R + {}j".format(self.slope, self.intercept)
+    
+    def get_im(self, r):
+        return complex(0, self.slope*r + self.intercept)
+    
+    def get_re(self, i):
+        return (i - self.intercept)/self.slope
+    
 #initialize the 4 circles
 def initialise(p1, p2, p3, p4):
     return
