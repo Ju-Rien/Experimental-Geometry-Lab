@@ -13,7 +13,6 @@
   * "Sliders" pour les points arbitraires sur les cercles (seulement sur 2 des 4 cercles). Slider du style (0,1)?
 
 ### HComplex
-* Bi-rapport(Cross-Ratio): 4 HComplex -> 1 HComplex. (Par le determinant des matrices [[z1, z2],[w1, w2]]).
 
 ### TreeNode
 
