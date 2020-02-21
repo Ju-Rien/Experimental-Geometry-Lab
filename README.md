@@ -10,6 +10,8 @@ M1M2m1m2 := C
 
 * Trouver une façon de générer tr(C) = -2, une transformation parabolique. (C n'aurait qu'un seul point fixe.)
 
+* Voir fichier en date du 10 février sur Teams!
+
 ### Général
 
 * Assurer que tr(M1M2m1m2)=-2
