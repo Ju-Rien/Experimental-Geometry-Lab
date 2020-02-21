@@ -2,9 +2,21 @@
 
 ## TODOS
 
+### Math
+
+M1M2m1m2 := C
+
+* Trouver une forme de tr(C) en terme de $x = tr(M1)$, y = tr(M2) et z = tr(M1M2). *Hint*: Ish proche de x²+y²+z²-xyz+2, par Cayley-Hamilton.
+
+* Trouver une façon de générer tr(C) = -2, une transformation parabolique. (C n'aurait qu'un seul point fixe.)
+
 ### Général
+
+* Assurer que tr(M1M2m1m2)=-2
+
 * Affichage d'un cercle.
   * Choix de librairie d'affichage. (Matplotlib?)
+  * Paufinage
 
 * Fonctions d'affichage récursive
   * **Note**: On peut itérer sur TreeNode avec un boucle `for` standard
@@ -12,9 +24,15 @@
 * Fonction d'intialisation des 4 cercles en chaîne de tangeance 
   * "Sliders" pour les points arbitraires sur les cercles (seulement sur 2 des 4 cercles). Slider du style (0,1)?
 
+### MoebTr
+
+* Coder une fonction qui donne tous les points fixes d'une transformation de Möbius (MoebTr).
+
 ### HComplex
 
 ### TreeNode
+
+
 
 ## Pour utiliser le git:
 
