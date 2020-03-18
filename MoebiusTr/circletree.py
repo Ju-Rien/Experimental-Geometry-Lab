@@ -25,11 +25,11 @@ class TreeNode:
         """Prints the tree in order (itself before its descendants.)"""
         print(self.circle)
         if self.kid1:
-            self.kid1.PrintTree()
+            self.kid1.print_tree()
         if self.kid2:
-            self.kid2.PrintTree()
+            self.kid2.print_tree()
         if self.kid3:
-            self.kid3.PrintTree()
+            self.kid3.print_tree()
 
 
 def plot_tree(tree):

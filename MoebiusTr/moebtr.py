@@ -8,6 +8,7 @@ import sympy
 class MoebTr:
 
     def __init__(self, a, b, c, d):
+        # detM != 0
         if abs(a*d - b*c) < np.sqrt(np.finfo(float).eps):
             raise ValueError("The created MoebTr is not invertible. ad - bc = {}".format(a*d - b*c))
 
@@ -379,6 +380,7 @@ class Line:
 
 #initialize the 4 circles
 def initialise(p1, p2, p3, p4):
+    """TODO"""
     return
 
 def cross_ratio(z1, z2, z3, z4):
@@ -388,6 +390,12 @@ def cross_ratio(z1, z2, z3, z4):
 def inv_cross_ration(z1, z2, z3, a):
     """Returns the 4th complex number given 3 complex numbers and a cross ratio"""
     return ((1-a)*z1*z3 + a*z2*z3 - z1*z2)/((a-1)*z2 - a*z1 + z3)
+
+def commutator_tr(M1, M2):
+    trM1 = M1.trace()
+    trM2 = M2.trace()
+    trM1M2 = M1.dot(M2).trace()
+    return trM1**2 + trM2**2 + trM1M2**2 - trM1*trM2*trM1M2 - 2
 
 if __name__ == "__main__":
     print("Coming soon.")
